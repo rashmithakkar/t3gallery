@@ -34,7 +34,7 @@ async function Images() {
 return (
     <div className="flex flex-wrap gap-4">
       {images.map((image, index) => (
-        <div key={image.id + '-' + index} className="w-48 flex-col">
+        <div key={image.id} className="w-48 flex-col">
           <img src={image.url} 
            width={192} // w-48 = 12rem = 192px
            height={192} />

@@ -3,9 +3,9 @@ import { createUploadthing, type FileRouter } from "uploadthing/next";
 import { UploadThingError } from "uploadthing/server";
 import { db } from "~/server/db";
 import { images } from "~/server/db/schema";
-
+ 
 const f = createUploadthing();
-
+  
 // FileRouter for your app, can contain multiple FileRoutes
 export const ourFileRouter = {
   // Define as many FileRoutes as you like, each with a unique routeSlug
@@ -23,30 +23,38 @@ export const ourFileRouter = {
     .middleware(async ({ req }) => {
       // This code runs on your server before upload
       const user = auth();
-
+ 
       // If you throw, the user will not be able to upload
       if (!user.userId) throw new UploadThingError("Unauthorized");
-
+ 
       // Whatever is returned here is accessible in onUploadComplete as `metadata`
       return { userId: user.userId };
     })
+   
     .onUploadComplete(async ({ metadata, file }) => {
       // This code RUNS ON YOUR SERVER after upload
       console.log("Upload complete for userId:", metadata.userId);
+      // Fetch all existing IDs from the table
+      const existingIds = await db.select({ id: images.id }).from(images);
 
-      console.log("file url", file.url);
+      // Find the next available unique ID
+      const usedIds = new Set(existingIds.map(record => record.id));
+      let nextId = 1;
+      while (usedIds.has(nextId)) {
+        nextId++;
+      }
 
-      // await db.insert(images).values(
-      //   {
-      //     name: file.name,
-      //     url: file.url,
-      //     id: 1,
-      //   }
-      // )
+      await db.insert(images).values(
+        {
+          name: file.name,
+          url: file.url,
+          id: nextId,
+        }
+      )
 
       // !!! Whatever is returned here is sent to the clientside `onClientUploadComplete` callback
       return { uploadedBy: metadata.userId };
     }),
 } satisfies FileRouter;
-
+ 
 export type OurFileRouter = typeof ourFileRouter;
