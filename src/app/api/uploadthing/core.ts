@@ -16,7 +16,7 @@ export const ourFileRouter = {
        * @see https://docs.uploadthing.com/file-routes#route-config
        */
       maxFileSize: "4MB",
-      maxFileCount: 1,
+      maxFileCount: 40,
     },
   })
     // Set permissions and file types for this FileRoute
@@ -32,22 +32,12 @@ export const ourFileRouter = {
    
     .onUploadComplete(async ({ metadata, file }) => {
       // This code RUNS ON YOUR SERVER after upload
-      console.log("Upload complete for userId:", metadata.userId);
-      // Fetch all existing IDs from the table
-      const existingIds = await db.select({ id: images.id }).from(images);
-
-      // Find the next available unique ID
-      const usedIds = new Set(existingIds.map(record => record.id));
-      let nextId = 1;
-      while (usedIds.has(nextId)) {
-        nextId++;
-      }
-
+  
       await db.insert(images).values(
         {
           name: file.name,
           url: file.url,
-          id: nextId,
+          userId: metadata.userId,
         }
       )
 
