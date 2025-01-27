@@ -32,13 +32,19 @@ async function Images() {
   }
 );
 return (
-    <div className="flex flex-wrap gap-4">
+    <div className="relative group flex flex-wrap gap-4">
       {images.map((image, index) => (
-        <div key={image.id} className="w-48 flex-col">
+        <div key={image.id} className="w-48 flex-col relative">
           <img src={image.url} 
-           width={192} // w-48 = 12rem = 192px
-           height={192} />
-          <div>{image.name}</div>
+           width={150} // w-48 = 12rem = 192px
+           height={150} 
+           className="object-cover w-full h-full hover:blur-sm transition-all duration-300"/>
+            <div className="absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 
+                 transition-all duration-300 bg-black/30 z-10">
+              <span className="text-white font-semibold text-lg z-20">
+                {image.name}
+               </span>
+            </div>
         </div>
       ))}
     </div>
