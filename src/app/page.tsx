@@ -1,6 +1,7 @@
 import { SignedIn, SignedOut } from "@clerk/nextjs";
 import Link from "next/link";
 import { db } from "~/server/db";
+import { UploadButton } from "~/utils/uploadthing";
 
 export const dynamic = "force-dynamic";
 
@@ -34,7 +35,9 @@ return (
     <div className="flex flex-wrap gap-4">
       {images.map((image, index) => (
         <div key={image.id + '-' + index} className="w-48 flex-col">
-          <img src={image.url} />
+          <img src={image.url} 
+           width={192} // w-48 = 12rem = 192px
+           height={192} />
           <div>{image.name}</div>
         </div>
       ))}

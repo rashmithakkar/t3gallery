@@ -1,4 +1,5 @@
 import "~/styles/globals.css";
+import "@uploadthing/react/styles.css"
 
 import { ClerkProvider } from '@clerk/nextjs';
 
@@ -25,7 +26,7 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <ClerkProvider>
-      <html lang="en"> 
+      <html lang="en" suppressHydrationWarning={true}> 
         <body className={`${GeistSans.variable} flex flex-col gap-4`}>
           <TopNav />
             {children}
