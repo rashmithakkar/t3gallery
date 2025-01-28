@@ -1,8 +1,6 @@
 import { SignedIn, SignedOut } from "@clerk/nextjs";
-import Link from "next/link";
-import { db } from "~/server/db";
+import Image from "next/image";
 import { getMyImages } from "~/server/queries";
-import { UploadButton } from "~/utils/uploadthing";
 
 export const dynamic = "force-dynamic";
 
@@ -33,9 +31,10 @@ return (
     <div className="relative group flex flex-wrap gap-4">
       {images.map((image, index) => (
         <div key={image.id} className="w-48 flex-col relative">
-          <img src={image.url} 
+          <Image src={image.url} 
            width={150} // w-48 = 12rem = 192px
            height={150} 
+           alt={image.name}
            className="object-cover w-full h-full hover:blur-sm transition-all duration-300"/>
             <div className="absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 
                  transition-all duration-300 bg-black/30 z-10">
