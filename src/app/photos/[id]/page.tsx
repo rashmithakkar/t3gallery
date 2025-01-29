@@ -1,3 +1,4 @@
+import FullPageImageView from "~/app/components/full-image-page";
 
 export default async function PhotoPage({
   params,
@@ -9,5 +10,5 @@ export default async function PhotoPage({
 
   if(Number.isNaN(idAsNumber)) throw new Error("Invalid ID"); 
 
-  return <div>ROUTE {photoId}</div>;
+  return <FullPageImageView id={idAsNumber}/>;
 }
