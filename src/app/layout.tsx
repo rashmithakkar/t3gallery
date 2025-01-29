@@ -9,7 +9,6 @@ import { Inter } from "next/font/google";
 
 import { GeistSans } from "geist/font/sans";
 import { type Metadata } from "next";
-import Link from "next/link";
 import { TopNav } from "./_components/topnav";
 import { ourFileRouter } from "./api/uploadthing/core";
 
@@ -26,8 +25,10 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
+  modal
 }: Readonly<{ 
-  children: React.ReactNode
+  children: React.ReactNode;
+  modal: React.ReactNode;
 }>) {
   return (
     <ClerkProvider>
@@ -36,6 +37,8 @@ export default function RootLayout({
         <body className={`${GeistSans.variable} flex flex-col gap-4`}>
           <TopNav />
             {children}
+            {modal}
+            <div id="modal-root" />
         </body>
       </html>
     </ClerkProvider>
