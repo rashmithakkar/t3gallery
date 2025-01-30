@@ -12,6 +12,7 @@ import { type Metadata } from "next";
 import { TopNav } from "./_components/topnav";
 import { ourFileRouter } from "./api/uploadthing/core";
 import { Toaster } from "~/components/ui/sonner";
+import { CSPostHogProvider } from "./_analytics/provider";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -33,6 +34,7 @@ export default function RootLayout({
 }>) {
   return (
     <ClerkProvider>
+      <CSPostHogProvider>
       <html lang="en" suppressHydrationWarning={true}> 
       <NextSSRPlugin routerConfig={extractRouterConfig(ourFileRouter)}/>
         <body className={`font-sans ${inter.variable}`}>
@@ -45,6 +47,7 @@ export default function RootLayout({
           <Toaster />
         </body>
       </html>
+      </CSPostHogProvider>
     </ClerkProvider>
   );
 }
