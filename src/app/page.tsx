@@ -9,7 +9,7 @@ async function Images() {
 const images = await getMyImages();
 
 return (
-  <div className="flex flex-wrap gap-4 justify-center">
+  <div className="flex flex-wrap gap-4 justify-center p-4">
   {images.map((img) => (
     <div key={img.id} className="w-48 h-40 flex flex-col">
       <div className="relative h-32">
